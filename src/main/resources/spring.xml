@@ -10,9 +10,9 @@
  		http://www.springframework.org/schema/util
  		http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-    <bean id="user" class="ru.epam.spring.hometask.domain.User"/>
-    <bean id="auditorium" class="ru.epam.spring.hometask.domain.Auditorium" scope="prototype"/>
-    <bean id="event" class="ru.epam.spring.hometask.domain.Event" scope="prototype"/>
-    <bean id="eventRaiting" class="ru.epam.spring.hometask.domain.EventRating" scope="prototype"/>
+    <bean class="ru.epam.spring.hometask.DAO.UserDAO" init-method="init" id="userDAO"/>
+    <bean class="ru.epam.spring.hometask.utils.wrapper.UserServiceWraper" id="userWrapper">
+        <constructor-arg ref="userDAO"/>
+    </bean>
 
 </beans>

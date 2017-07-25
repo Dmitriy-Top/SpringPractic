@@ -9,6 +9,12 @@ import java.util.TreeSet;
  */
 public class User extends DomainObject {
 
+    public static Long counter;
+
+    static {
+        counter = 0l;
+    }
+
     private String firstName;
 
     private String lastName;
