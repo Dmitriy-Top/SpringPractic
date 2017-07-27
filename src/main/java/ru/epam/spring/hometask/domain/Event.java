@@ -13,6 +13,12 @@ import java.util.TreeSet;
  */
 public class Event extends DomainObject {
 
+    public static Long counter;
+
+    static {
+        counter = 0l;
+    }
+
     private String name;
 
     private NavigableSet<LocalDateTime> airDates = new TreeSet<>();
@@ -205,4 +211,11 @@ public class Event extends DomainObject {
         return true;
     }
 
+    public Event(String name, NavigableSet<LocalDateTime> airDates, double basePrice, EventRating rating, NavigableMap<LocalDateTime, Auditorium> auditoriums) {
+        this.name = name;
+        this.airDates = airDates;
+        this.basePrice = basePrice;
+        this.rating = rating;
+        this.auditoriums = auditoriums;
+    }
 }

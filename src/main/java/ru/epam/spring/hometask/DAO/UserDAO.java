@@ -11,14 +11,13 @@ import java.util.*;
  * Created by Dmitrii_Topolnik on 7/14/2017.
  */
 public class UserDAO implements UserService {
-    private static List<User> DB;
+    private List<User> DB;
 
     @Nullable
     @Override
     public User getUserByEmail(@Nonnull String email) {
-        User result = null;
         for (User user : DB) {
-            if (user.getEmail().equals(email)) return result;
+            if (user.getEmail().equals(email)) return user;
         }
         return null;
     }

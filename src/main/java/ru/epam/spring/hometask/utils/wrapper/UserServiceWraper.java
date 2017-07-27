@@ -13,10 +13,6 @@ public class UserServiceWraper {
         this.us = us;
     }
 
-    public String test(){
-        return "ok";
-    }
-
     public Long regUser(String email, String firstName, String lastName) {
         User user = new User();
         user.setEmail(email);
@@ -33,5 +29,24 @@ public class UserServiceWraper {
         user.setId(id);
 
         us.remove(user);
+    }
+
+    public String getUserById(long id){
+        User user = us.getById(id);
+        return user.toString();
+    }
+
+    public String getUserByEmail(String email){
+        User user = us.getUserByEmail(email);
+        return (user != null) ? user.toString() : "not found";
+    }
+
+    public String getAll() {
+        StringBuffer sb = new StringBuffer();
+        for (User user : us.getAll()){
+            sb.append(user.toString());
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }
