@@ -13,12 +13,12 @@ import java.util.Set;
  */
 public class AuditoriumDAO  implements AuditoriumService{
 
-    private Set<Auditorium> DB;
+    private HashSet<Auditorium> DB;
 
 
     @Nonnull
     @Override
-    public Set<Auditorium> getAll() {
+    public HashSet<Auditorium> getAll() {
         return DB;
     }
 
