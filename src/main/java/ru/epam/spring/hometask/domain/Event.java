@@ -1,12 +1,11 @@
 package ru.epam.spring.hometask.domain;
 
+import javafx.util.Pair;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
-import java.util.Objects;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * @author Yuriy_Tkach
@@ -14,9 +13,10 @@ import java.util.TreeSet;
 public class Event extends DomainObject {
 
     public static Long counter;
-
+    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     static {
         counter = 0l;
+
     }
 
     private String name;
@@ -217,5 +217,29 @@ public class Event extends DomainObject {
         this.basePrice = basePrice;
         this.rating = rating;
         this.auditoriums = auditoriums;
+    }
+
+    public Event() {
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sbd = new StringBuffer();
+        StringBuffer sba = new StringBuffer();
+        for (LocalDateTime date:airDates){
+            sbd.append(date.format(Event.formatter));
+            sba.append(", ");
+        }
+        for (Map.Entry<LocalDateTime, Auditorium> pair : auditoriums.entrySet()){
+            sba.append(pair.getValue().getName());
+        }
+        return "Event{" +
+                "name='" + name + '\'' +
+                ", id=" + super.getId() +
+                ", airDates=[ " + sbd.toString() +
+                " ], basePrice=" + basePrice +
+                ", rating=" + rating +
+                ", auditoriums=[" + sbd +
+                " ]}";
     }
 }
