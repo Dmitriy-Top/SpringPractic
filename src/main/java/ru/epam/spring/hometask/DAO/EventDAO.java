@@ -16,10 +16,6 @@ import java.util.List;
 public class EventDAO implements EventService {
     private List<Event> DB;
 
-    private void init(){
-        this.DB = new ArrayList<Event>();
-    }
-
     @Nullable
     @Override
     public Event getByName(@Nonnull String name) {
@@ -53,5 +49,10 @@ public class EventDAO implements EventService {
     @Override
     public Collection<Event> getAll() {
         return DB;
+    }
+
+
+    private void init(){
+        this.DB = new ArrayList<Event>();
     }
 }

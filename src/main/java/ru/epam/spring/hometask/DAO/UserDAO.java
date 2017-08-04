@@ -1,6 +1,7 @@
 package ru.epam.spring.hometask.DAO;
 
 import ru.epam.spring.hometask.domain.User;
+import ru.epam.spring.hometask.domain.UserRole;
 import ru.epam.spring.hometask.service.UserService;
 
 import javax.annotation.Nonnull;
@@ -17,7 +18,9 @@ public class UserDAO implements UserService {
     @Override
     public User getUserByEmail(@Nonnull String email) {
         for (User user : DB) {
-            if (user.getEmail().equals(email)) return user;
+            if (user.getEmail().equals(email)){
+                return user;
+            }
         }
         return null;
     }
@@ -59,6 +62,13 @@ public class UserDAO implements UserService {
 
     private void init() {
         DB = new ArrayList<User>();
+        //test content
+        User admin = new User();
+        admin.setEmail("test@email.ru");
+        admin.setFirstName("Dmitriy");
+        admin.setLastName("Topolnyk");
+        admin.setRole(UserRole.ADMIN);
+        DB.add(admin);
 
 
     }

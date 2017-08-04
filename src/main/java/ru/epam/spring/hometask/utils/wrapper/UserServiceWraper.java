@@ -1,26 +1,35 @@
 package ru.epam.spring.hometask.utils.wrapper;
 
 import ru.epam.spring.hometask.domain.User;
+import ru.epam.spring.hometask.domain.UserRole;
 import ru.epam.spring.hometask.service.UserService;
+import ru.epam.spring.hometask.utils.UserBundle;
 
 /**
  * Created by Dmitrii_Topolnik on 7/25/2017.
  */
 public class UserServiceWraper {
     private UserService us;
+    private UserBundle userBundle;
 
-    public UserServiceWraper(UserService us) {
+    public UserServiceWraper(UserService us, UserBundle userBundle) {
         this.us = us;
+        this.userBundle = userBundle;
     }
 
-    public Long regUser(String email, String firstName, String lastName) {
+    public String regUser(String email, String firstName, String lastName, String role) {
         User user = new User();
+        try {
+            user.setRole(UserRole.valueOf(role));
+        } catch (IllegalArgumentException exp) {
+            return "User role not found";
+        }
         user.setEmail(email);
         user.setFirstName(firstName);
         user.setLastName(lastName);
 
         user = us.save(user);
-        return user.getId();
+        return email + " is registered, id is " + user.getId();
     }
 
     public void delUser(long id) {
@@ -31,22 +40,48 @@ public class UserServiceWraper {
         us.remove(user);
     }
 
-    public String getUserById(long id){
+    public String getUserById(long id) {
         User user = us.getById(id);
-        return user.toString();
+        return (user != null) ? "user where id is " + id + " is " + user.toString() : "user not found";
     }
 
-    public String getUserByEmail(String email){
+    public String getUserByEmail(String email) {
         User user = us.getUserByEmail(email);
-        return (user != null) ? user.toString() : "not found";
+        return (user != null) ? user.toString() : "user not found";
     }
 
     public String getAll() {
         StringBuffer sb = new StringBuffer();
-        for (User user : us.getAll()){
+        for (User user : us.getAll()) {
             sb.append(user.toString());
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public Boolean isAuth() {
+        if (userBundle.getCurrnetUser() == null) return false;
+        return true;
+    }
+
+    public String authUser(String email) {
+        User user = us.getUserByEmail(email);
+        if (user != null) {
+            try {
+                userBundle.setCurrnetUser(user);
+            } catch (Exception e) {
+                return "User already auth";
+            }
+            return user.getFirstName() + " " + user.getLastName() + " is auth";
+        }
+        return "User not found";
+    }
+
+    public boolean isAdmin() {
+        User user = userBundle.getCurrnetUser();
+        if (user == null) return false;
+        if (user.getRole() == UserRole.USER) return false;
+        return true;
+
     }
 }

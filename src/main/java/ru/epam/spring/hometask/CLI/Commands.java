@@ -2,10 +2,13 @@ package ru.epam.spring.hometask.CLI;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.shell.core.CommandMarker;
+import org.springframework.shell.core.annotation.CliAvailabilityIndicator;
 import org.springframework.shell.core.annotation.CliCommand;
 import org.springframework.shell.core.annotation.CliOption;
 import org.springframework.stereotype.Component;
 import ru.epam.spring.hometask.domain.Event;
+import ru.epam.spring.hometask.domain.User;
+import ru.epam.spring.hometask.utils.UserBundle;
 import ru.epam.spring.hometask.utils.wrapper.AuditoriumServiceWrapper;
 import ru.epam.spring.hometask.utils.wrapper.EventServiceWrapper;
 import ru.epam.spring.hometask.utils.wrapper.UserServiceWraper;
@@ -20,13 +23,41 @@ public class Commands implements CommandMarker {
     private static AuditoriumServiceWrapper aswraper;
     private static EventServiceWrapper eswraper;
 
+    //User rules
+
+    @CliAvailabilityIndicator({"login"}) //base
+    public boolean isHasUser() {
+        return !uswraper.isAuth();
+    }
+
+    @CliAvailabilityIndicator({"getAllAuditoriums", "getAuditoriumByName", "getEventById", "getEventByName", "getEventAll"})
+    //user level
+    public boolean userIsAuth() {
+        return uswraper.isAuth();
+    }
+
+    @CliAvailabilityIndicator({"user-registration", "user-delete", "getUserById", "getUserByEmail", "getAllUser", "saveEvent", "removeEventById", "removeEventByName"})
+    //admin level
+    public boolean userIsAdmin() {
+        return uswraper.isAdmin();
+    }
+
+
+    //Commands logic
+
+    @CliCommand(value = {"login"})
+    public String login(
+            @CliOption(key = "email", mandatory = true) String email) {
+        return uswraper.authUser(email);
+    }
+
     @CliCommand(value = {"user-registration"})
     public String userRegistration(
             @CliOption(key = "email", mandatory = true) String email,
+            @CliOption(key = "role", mandatory = true) String role,
             @CliOption(key = "firstName", mandatory = true) String firstName,
             @CliOption(key = "lastName", mandatory = true) String lastName) {
-        Long id = uswraper.regUser(email, firstName, lastName);
-        return email + " is registered, id is " + id;
+        return uswraper.regUser(email, role, firstName, lastName);
     }
 
     @CliCommand(value = {"user-delete"})
@@ -36,7 +67,7 @@ public class Commands implements CommandMarker {
         try {
             idl = Long.parseLong(id);
         } catch (NumberFormatException e) {
-            return "not user id";
+            return "id - wrong";
         }
         uswraper.delUser(idl);
         return "user where id is " + idl + " is delete";
@@ -46,46 +77,34 @@ public class Commands implements CommandMarker {
     public String getUserById(
             @CliOption(key = "id", mandatory = true) String id) {
         long idl;
-        String result;
         try {
             idl = Long.parseLong(id);
-            result = uswraper.getUserById(idl);
         } catch (NumberFormatException e) {
-            return "not user id";
+            return "id - wrong";
         }
-        if (result == null) result = "not found";
-        return "user where id is " + idl + " is " + result;
+        return uswraper.getUserById(idl);
     }
 
     @CliCommand(value = {"getUserByEmail"})
     public String getUserByEmail(
             @CliOption(key = "email", mandatory = true) String email) {
-        String result;
-        result = uswraper.getUserByEmail(email);
-        if (result == null) result = "not found";
-        return "user where email is " + email + " is " + result;
+        return uswraper.getUserByEmail(email);
     }
 
     @CliCommand(value = {"getAllUser"})
     public String getAllUser() {
-        String result;
-        result = uswraper.getAll();
-        return result;
+        return uswraper.getAll();
     }
 
     @CliCommand(value = {"getAllAuditoriums"})
     public String getAllAuditoriums() {
-        String result;
-        result = aswraper.getAll();
-        return result;
+        return aswraper.getAll();
     }
 
     @CliCommand(value = {"getAuditoriumByName"})
     public String getAuditoriumByName(
             @CliOption(key = "name", mandatory = true) String name) {
-        String result;
-        result = aswraper.getByName(name);
-        return result;
+        return aswraper.getByName(name);
     }
 
     @CliCommand(value = {"saveEvent"})
@@ -95,8 +114,7 @@ public class Commands implements CommandMarker {
             @CliOption(key = "basePrice", mandatory = true) String basePrice,
             @CliOption(key = "rating", mandatory = true) String rating,
             @CliOption(key = "auditoriums", mandatory = true) String auditoriums) {
-        String result = eswraper.save(name, airDates, basePrice, rating, auditoriums);
-        return result;
+        return eswraper.save(name, airDates, basePrice, rating, auditoriums);
     }
 
     @CliCommand(value = {"removeEventById"})
@@ -130,28 +148,11 @@ public class Commands implements CommandMarker {
     }
 
     @CliCommand(value = {"getEventAll"})
-    public String getEventAll(){
+    public String getEventAll() {
         String result = eswraper.getAll();
         return result;
     }
 
-/*
-    @CliCommand(value = { "login" })
-    public String login(
-            @CliOption(key = "email",mandatory = true) String email) {
-        isAuth = true;
-        return email + "is authorise";
-    }
-
-    @CliAvailabilityIndicator({"view-event"})
-    public boolean isCommandAvailable() {
-        return isAuth;
-    }
-
-    @CliCommand(value = { "view-event" })
-    public String viewEvent() {
-        return "No event";
-    }*/
 
     public static void setCtx(ConfigurableApplicationContext ctx) {
         Commands.ctx = ctx;

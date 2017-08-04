@@ -13,7 +13,7 @@ import java.util.logging.LogManager;
  */
 public class Main {
     public static void main(String[] args) throws IOException {
-//        LogManager.getLogManager().reset();
+        LogManager.getLogManager().reset(); // off spring-msg
         ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
         Commands.setCtx(ctx);
         Bootstrap.main(args);

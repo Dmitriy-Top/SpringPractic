@@ -8,6 +8,7 @@ import ru.epam.spring.hometask.service.EventService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 /**
@@ -34,8 +35,14 @@ public class EventServiceWrapper {
             er = EventRating.valueOf(rating);
             Auditorium auditorium = as.getByName(auditoriums);
             auditors.put(airDate, auditorium);
-        } catch (Exception e) {
-            return "argument is wrong";
+        } catch (NumberFormatException e) {
+            return "argument 'base price' is wrong";
+        } catch (IllegalArgumentException e) {
+            return "argument 'rating' is wrong";
+        } catch (DateTimeParseException e) {
+            return "argument 'air dates' is wrong";
+        } catch (NullPointerException e){
+            return "argument 'auditoriums' is wrong";
         }
         Event ev = es.save(new Event(name, airDatesS, br, er, auditors));
         return ev.toString();

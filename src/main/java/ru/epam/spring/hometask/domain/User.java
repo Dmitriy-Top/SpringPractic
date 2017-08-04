@@ -21,6 +21,8 @@ public class User extends DomainObject {
 
     private String email;
 
+    private UserRole role;
+
     private NavigableSet<Ticket> tickets = new TreeSet<>();
 
     public String getFirstName() {
@@ -103,8 +105,21 @@ public class User extends DomainObject {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", tickets=" + tickets.toString() +
+                ", role=" + role.toString() +
                 ", id=" + super.getId() +
                 '}';
+    }
+
+    public User() {
+        User.counter++;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }
 

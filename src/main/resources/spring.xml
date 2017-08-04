@@ -17,9 +17,11 @@
         </property>
         <property name="ignoreResourceNotFound" value="true" />
     </bean>
+    <bean class="ru.epam.spring.hometask.utils.UserBundle" id="userBundle"/>
     <bean class="ru.epam.spring.hometask.DAO.UserDAO" init-method="init" id="userDAO"/>
     <bean class="ru.epam.spring.hometask.utils.wrapper.UserServiceWraper" id="userWrapper">
         <constructor-arg ref="userDAO"/>
+        <constructor-arg ref="userBundle"/>
     </bean>
     <bean class="ru.epam.spring.hometask.DAO.AuditoriumDAO" id="AuditoriumDAO">
         <property name="DB">
