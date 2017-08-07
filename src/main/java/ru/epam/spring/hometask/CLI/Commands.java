@@ -8,8 +8,10 @@ import org.springframework.shell.core.annotation.CliOption;
 import org.springframework.stereotype.Component;
 import ru.epam.spring.hometask.domain.Event;
 import ru.epam.spring.hometask.domain.User;
+import ru.epam.spring.hometask.service.BookingService;
 import ru.epam.spring.hometask.utils.UserBundle;
 import ru.epam.spring.hometask.utils.wrapper.AuditoriumServiceWrapper;
+import ru.epam.spring.hometask.utils.wrapper.BookingServiceWrapper;
 import ru.epam.spring.hometask.utils.wrapper.EventServiceWrapper;
 import ru.epam.spring.hometask.utils.wrapper.UserServiceWraper;
 
@@ -22,6 +24,7 @@ public class Commands implements CommandMarker {
     private static UserServiceWraper uswraper;
     private static AuditoriumServiceWrapper aswraper;
     private static EventServiceWrapper eswraper;
+    private static BookingServiceWrapper bswraper;
 
     //User rules
 
@@ -30,7 +33,7 @@ public class Commands implements CommandMarker {
         return !uswraper.isAuth();
     }
 
-    @CliAvailabilityIndicator({"getAllAuditoriums", "getAuditoriumByName", "getEventById", "getEventByName", "getEventAll"})
+    @CliAvailabilityIndicator({"getAllAuditoriums", "getAuditoriumByName", "getEventById", "getEventByName", "getEventAll","getPurchasedTicketsForEvent"})
     //user level
     public boolean userIsAuth() {
         return uswraper.isAuth();
@@ -55,9 +58,10 @@ public class Commands implements CommandMarker {
     public String userRegistration(
             @CliOption(key = "email", mandatory = true) String email,
             @CliOption(key = "role", mandatory = true) String role,
+            @CliOption(key = "birthDate", mandatory = true) String birthDate,
             @CliOption(key = "firstName", mandatory = true) String firstName,
             @CliOption(key = "lastName", mandatory = true) String lastName) {
-        return uswraper.regUser(email, role, firstName, lastName);
+        return uswraper.regUser(email, role, firstName, lastName, birthDate);
     }
 
     @CliCommand(value = {"user-delete"})
@@ -114,7 +118,8 @@ public class Commands implements CommandMarker {
             @CliOption(key = "basePrice", mandatory = true) String basePrice,
             @CliOption(key = "rating", mandatory = true) String rating,
             @CliOption(key = "auditoriums", mandatory = true) String auditoriums) {
-        return eswraper.save(name, airDates, basePrice, rating, auditoriums);
+        String[] airDatesArray = airDates.split(",");
+        return eswraper.save(name, airDatesArray, basePrice, rating, auditoriums);
     }
 
     @CliCommand(value = {"removeEventById"})
@@ -153,11 +158,39 @@ public class Commands implements CommandMarker {
         return result;
     }
 
+    @CliCommand(value = {"getTicketsPrice"})
+    public String getTicketsPrice(
+            @CliOption(key = "eventID", mandatory = true) String event,
+            @CliOption(key = "airDate", mandatory = true) String airDate,
+            @CliOption(key = "userEmail", mandatory = true) String userEmail,
+            @CliOption(key = "seats", mandatory = true) String seats) {
+
+        return bswraper.getTicketPrice(event,airDate,userEmail,seats.split(","));
+    }
+
+    @CliCommand(value = {"bookTicket"})
+    public String bookTicket(
+            @CliOption(key = "eventID", mandatory = true) String event,
+            @CliOption(key = "airDate", mandatory = true) String airDate,
+            @CliOption(key = "userEmail", mandatory = true) String userEmail,
+            @CliOption(key = "seats", mandatory = true) String seats) {
+
+        return bswraper.bookTicket(event,airDate,userEmail,seats.split(","));
+    }
+
+    @CliCommand(value = {"getPurchasedTicketsForEvent"})
+    public String getPurchasedTicketsForEvent(
+            @CliOption(key = "eventID", mandatory = true) String event,
+            @CliOption(key = "airDate", mandatory = true) String airDate) {
+
+        return bswraper.getPurchasedTicketsForEvent(event,airDate);
+    }
 
     public static void setCtx(ConfigurableApplicationContext ctx) {
         Commands.ctx = ctx;
         uswraper = ctx.getBean(UserServiceWraper.class);
         aswraper = ctx.getBean(AuditoriumServiceWrapper.class);
         eswraper = ctx.getBean(EventServiceWrapper.class);
+        bswraper = ctx.getBean(BookingServiceWrapper.class);
     }
 }

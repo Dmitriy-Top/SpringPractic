@@ -5,10 +5,19 @@ package ru.epam.spring.hometask.domain;
  */
 public enum EventRating {
 
-    LOW,
+    LOW(0.8),
 
-    MID,
+    MID(1.0),
 
-    HIGH;
+    HIGH(1.2);
 
+    private double coefficient;
+
+    EventRating(double coefficient) {
+        this.coefficient = coefficient;
+    }
+
+    public double getCoefficient() {
+        return coefficient;
+    }
 }

@@ -23,28 +23,35 @@ public class EventServiceWrapper {
         this.as = as;
     }
 
-    public String save(String name, String airDates, String basePrice, String rating, String auditoriums) {
-        NavigableSet<LocalDateTime> airDatesS = new TreeSet<>();
+    public String save(String name, String[] airDates, String basePrice, String rating, String auditoriumString) {
+        NavigableSet<LocalDateTime> airDatesSet = new TreeSet<>();
         Double br;
         EventRating er;
-        NavigableMap<LocalDateTime, Auditorium> auditors = new TreeMap<>();
+        NavigableMap<LocalDateTime, Auditorium> auditoriumMap = new TreeMap<>();
+        for(String airDateString : airDates){
+            try {
+                LocalDateTime airDate = LocalDateTime.parse(airDateString, Event.FORMATTER);
+                airDatesSet.add(airDate);
+                Auditorium auditorium = as.getByName(auditoriumString);
+                auditoriumMap.put(airDate, auditorium);
+
+            } catch (DateTimeParseException e) {
+                return "argument 'air dates' is wrong";
+            } catch (NullPointerException e){
+                return "argument 'auditorium' is wrong";
+            }
+        }
         try {
-            LocalDateTime airDate = LocalDateTime.parse(airDates, Event.formatter);
-            airDatesS.add(airDate);
+
             br = Double.parseDouble(basePrice);
             er = EventRating.valueOf(rating);
-            Auditorium auditorium = as.getByName(auditoriums);
-            auditors.put(airDate, auditorium);
+
         } catch (NumberFormatException e) {
             return "argument 'base price' is wrong";
         } catch (IllegalArgumentException e) {
             return "argument 'rating' is wrong";
-        } catch (DateTimeParseException e) {
-            return "argument 'air dates' is wrong";
-        } catch (NullPointerException e){
-            return "argument 'auditoriums' is wrong";
         }
-        Event ev = es.save(new Event(name, airDatesS, br, er, auditors));
+        Event ev = es.save(new Event(name, airDatesSet, br, er, auditoriumMap));
         return ev.toString();
 
 
@@ -99,5 +106,14 @@ public class EventServiceWrapper {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    private void init(){
+        //test data
+        //todo: clean after
+        String[] dates = {"2017-08-11 12:00","2017-08-11 14:00"};
+        save("Love and Rose",dates,"150","LOW","betta");
+        String[] dates_2 = {"2017-08-12 11:00","2017-08-14 15:00","2017-08-17 17:00"};
+        save("Piece of shit",dates_2,"270","HIGH","alpha");
     }
 }

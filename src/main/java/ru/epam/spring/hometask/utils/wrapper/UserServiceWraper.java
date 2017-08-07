@@ -5,6 +5,8 @@ import ru.epam.spring.hometask.domain.UserRole;
 import ru.epam.spring.hometask.service.UserService;
 import ru.epam.spring.hometask.utils.UserBundle;
 
+import java.time.LocalDate;
+
 /**
  * Created by Dmitrii_Topolnik on 7/25/2017.
  */
@@ -17,7 +19,7 @@ public class UserServiceWraper {
         this.userBundle = userBundle;
     }
 
-    public String regUser(String email, String firstName, String lastName, String role) {
+    public String regUser(String email, String firstName, String lastName, String role, String birthDate) {
         User user = new User();
         try {
             user.setRole(UserRole.valueOf(role));
@@ -27,6 +29,7 @@ public class UserServiceWraper {
         user.setEmail(email);
         user.setFirstName(firstName);
         user.setLastName(lastName);
+        user.setBirthDay(LocalDate.parse(birthDate));
 
         user = us.save(user);
         return email + " is registered, id is " + user.getId();

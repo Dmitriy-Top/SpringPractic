@@ -17,11 +17,11 @@
         </property>
         <property name="ignoreResourceNotFound" value="true" />
     </bean>
-    <bean class="ru.epam.spring.hometask.utils.UserBundle" id="userBundle"/>
-    <bean class="ru.epam.spring.hometask.DAO.UserDAO" init-method="init" id="userDAO"/>
+    <bean class="ru.epam.spring.hometask.utils.UserBundle" id="UserBundle"/>
+    <bean class="ru.epam.spring.hometask.DAO.UserDAO" init-method="init" id="UserDAO"/>
     <bean class="ru.epam.spring.hometask.utils.wrapper.UserServiceWraper" id="userWrapper">
-        <constructor-arg ref="userDAO"/>
-        <constructor-arg ref="userBundle"/>
+        <constructor-arg ref="UserDAO"/>
+        <constructor-arg ref="UserBundle"/>
     </bean>
     <bean class="ru.epam.spring.hometask.DAO.AuditoriumDAO" id="AuditoriumDAO">
         <property name="DB">
@@ -55,9 +55,25 @@
         <constructor-arg ref="AuditoriumDAO"/>
     </bean>
     <bean class="ru.epam.spring.hometask.DAO.EventDAO" init-method="init" id="EventDAO"/>
-    <bean class="ru.epam.spring.hometask.utils.wrapper.EventServiceWrapper" id="EventWrapper">
+    <bean class="ru.epam.spring.hometask.utils.wrapper.EventServiceWrapper" init-method="init" id="EventWrapper">
         <constructor-arg ref="EventDAO"/>
         <constructor-arg ref="AuditoriumDAO"/>
+    </bean>
+    <bean class="ru.epam.spring.hometask.DAO.DiscountDAO" id="DiscountDAO">
+        <property name="strategies">
+            <list>
+                <bean class="ru.epam.spring.hometask.DAO.DiscountStrategys.BirthDayStrategy"/>
+                <bean class="ru.epam.spring.hometask.DAO.DiscountStrategys.Every10thTicketStrategy"/>
+            </list>
+        </property>
+    </bean>
+    <bean class="ru.epam.spring.hometask.DAO.TicketsDAO" id="TicketDAO">
+        <constructor-arg ref="DiscountDAO"/>
+    </bean>
+    <bean class="ru.epam.spring.hometask.utils.wrapper.BookingServiceWrapper" id="BookingWrapper">
+        <constructor-arg ref="TicketDAO"/>
+        <constructor-arg ref="EventDAO"/>
+        <constructor-arg ref="UserDAO"/>
     </bean>
 
 </beans>

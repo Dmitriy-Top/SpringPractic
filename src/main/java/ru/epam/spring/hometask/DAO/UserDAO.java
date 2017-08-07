@@ -6,6 +6,7 @@ import ru.epam.spring.hometask.service.UserService;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -68,6 +69,7 @@ public class UserDAO implements UserService {
         admin.setFirstName("Dmitriy");
         admin.setLastName("Topolnyk");
         admin.setRole(UserRole.ADMIN);
+        admin.setBirthDay(LocalDate.parse("1989-08-07"));
         DB.add(admin);
 
 

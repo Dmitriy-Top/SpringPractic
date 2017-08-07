@@ -1,14 +1,16 @@
 package ru.epam.spring.hometask.DAO;
 
+import ru.epam.spring.hometask.domain.Auditorium;
 import ru.epam.spring.hometask.domain.Event;
+import ru.epam.spring.hometask.domain.EventRating;
 import ru.epam.spring.hometask.domain.User;
 import ru.epam.spring.hometask.service.EventService;
+import ru.epam.spring.hometask.utils.wrapper.AuditoriumServiceWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * Created by Dmitrii_Topolnik on 7/27/2017.

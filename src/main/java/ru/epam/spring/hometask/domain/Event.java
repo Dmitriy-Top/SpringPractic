@@ -13,7 +13,7 @@ import java.util.*;
 public class Event extends DomainObject {
 
     public static Long counter;
-    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     static {
         counter = 0l;
 
@@ -227,11 +227,12 @@ public class Event extends DomainObject {
         StringBuffer sbd = new StringBuffer();
         StringBuffer sba = new StringBuffer();
         for (LocalDateTime date:airDates){
-            sbd.append(date.format(Event.formatter));
-            sba.append(", ");
+            sbd.append(date.format(Event.FORMATTER));
+            sbd.append(", ");
         }
         for (Map.Entry<LocalDateTime, Auditorium> pair : auditoriums.entrySet()){
-            sba.append(pair.getValue().getName());
+            sba.append(pair.getValue().getName() + " - " + pair.getKey().format(Event.FORMATTER));
+            sba.append(", ");
         }
         return "Event{" +
                 "name='" + name + '\'' +
@@ -239,7 +240,7 @@ public class Event extends DomainObject {
                 ", airDates=[ " + sbd.toString() +
                 " ], basePrice=" + basePrice +
                 ", rating=" + rating +
-                ", auditoriums=[" + sbd +
+                ", auditoriums=[" + sba.toString() +
                 " ]}";
     }
 }
