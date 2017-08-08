@@ -1,5 +1,7 @@
 package ru.epam.spring.hometask.utils;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import ru.epam.spring.hometask.domain.User;
 
 /**
@@ -16,8 +18,6 @@ public class UserBundle {
         if (this.currnetUser==null) this.currnetUser = currnetUser;
         else throw new Exception("User already registered");
     }
-
-    private UserBundle(){}
 
 
 }

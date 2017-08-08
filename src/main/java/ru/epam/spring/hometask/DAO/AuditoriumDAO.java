@@ -1,5 +1,6 @@
 package ru.epam.spring.hometask.DAO;
 
+import org.springframework.stereotype.Component;
 import ru.epam.spring.hometask.domain.Auditorium;
 import ru.epam.spring.hometask.service.AuditoriumService;
 

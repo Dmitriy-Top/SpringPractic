@@ -1,9 +1,10 @@
 package ru.epam.spring.hometask;
 
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.shell.Bootstrap;
 import ru.epam.spring.hometask.CLI.Commands;
+import ru.epam.spring.hometask.ContextConfig.DAOConfig;
+import ru.epam.spring.hometask.ContextConfig.WrapperConfig;
 
 import java.io.IOException;
 import java.util.logging.LogManager;
@@ -14,7 +15,9 @@ import java.util.logging.LogManager;
 public class Main {
     public static void main(String[] args) throws IOException {
         LogManager.getLogManager().reset(); // off spring-msg
-        ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+        ctx.register(DAOConfig.class, WrapperConfig.class);
+        ctx.refresh();
         Commands.setCtx(ctx);
         Bootstrap.main(args);
     }
