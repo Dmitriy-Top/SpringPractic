@@ -114,7 +114,7 @@ public class BookingServiceWrapper {
 
             Set<Ticket> tickets = bs.getPurchasedTicketsForEvent(currentEvent,airDateTime);
 
-            return "Tickets, sell to event " + currentEvent.getName() + " on " + airDate + ", is " + tickets.size();
+            return "Tickets, sell to event '" + currentEvent.getName() + "' on " + airDate + ", is " + tickets.size();
 
         } catch (NumberFormatException e) {
             return "argument 'eventID' is wrong";
