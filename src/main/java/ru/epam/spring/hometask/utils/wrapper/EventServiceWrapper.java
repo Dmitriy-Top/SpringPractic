@@ -6,6 +6,7 @@ import ru.epam.spring.hometask.domain.EventRating;
 import ru.epam.spring.hometask.service.AuditoriumService;
 import ru.epam.spring.hometask.service.EventService;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -107,7 +108,7 @@ public class EventServiceWrapper {
         }
         return sb.toString();
     }
-
+    @PostConstruct
     private void init(){
         //test data
         //todo: clean after

@@ -6,6 +6,8 @@ import org.springframework.shell.core.annotation.CliAvailabilityIndicator;
 import org.springframework.shell.core.annotation.CliCommand;
 import org.springframework.shell.core.annotation.CliOption;
 import org.springframework.stereotype.Component;
+import ru.epam.spring.hometask.aspects.CounterAspect;
+import ru.epam.spring.hometask.aspects.DiscountAspect;
 import ru.epam.spring.hometask.domain.Event;
 import ru.epam.spring.hometask.domain.User;
 import ru.epam.spring.hometask.service.BookingService;
@@ -25,6 +27,8 @@ public class Commands implements CommandMarker {
     private static AuditoriumServiceWrapper aswraper;
     private static EventServiceWrapper eswraper;
     private static BookingServiceWrapper bswraper;
+    private static CounterAspect counterAspect;
+    private static DiscountAspect discountAspect;
 
     //User rules
 
@@ -39,7 +43,7 @@ public class Commands implements CommandMarker {
         return uswraper.isAuth();
     }
 
-    @CliAvailabilityIndicator({"user-registration", "user-delete", "getUserById", "getUserByEmail", "getAllUser", "saveEvent", "removeEventById", "removeEventByName"})
+    @CliAvailabilityIndicator({"user-registration", "user-delete", "getUserById", "getUserByEmail", "getAllUser", "saveEvent", "removeEventById", "removeEventByName","getEventsStat"})
     //admin level
     public boolean userIsAdmin() {
         return uswraper.isAdmin();
@@ -186,11 +190,24 @@ public class Commands implements CommandMarker {
         return bswraper.getPurchasedTicketsForEvent(event,airDate);
     }
 
+    @CliCommand(value = {"getEventsStat"})
+    public String getEventsStat() {
+        return counterAspect.toString();
+    }
+
+    @CliCommand(value = {"getDiscountStat"})
+    public String getDiscountStat() {
+        return discountAspect.toString();
+    }
+
     public static void setCtx(ConfigurableApplicationContext ctx) {
         Commands.ctx = ctx;
         uswraper = ctx.getBean(UserServiceWraper.class);
         aswraper = ctx.getBean(AuditoriumServiceWrapper.class);
         eswraper = ctx.getBean(EventServiceWrapper.class);
         bswraper = ctx.getBean(BookingServiceWrapper.class);
+        counterAspect = ctx.getBean(CounterAspect.class);
+        discountAspect = ctx.getBean(DiscountAspect.class);
+
     }
 }

@@ -235,11 +235,11 @@ public class Event extends DomainObject {
             sba.append(", ");
         }
         return "Event{" +
-                "name='" + name + '\'' +
+                "name='" + getName() + '\'' +
                 ", id=" + super.getId() +
                 ", airDates=[ " + sbd.toString() +
-                " ], basePrice=" + basePrice +
-                ", rating=" + rating +
+                " ], basePrice=" + getBasePrice() +
+                ", rating=" + getRating().toString() +
                 ", auditoriums=[" + sba.toString() +
                 " ]}";
     }

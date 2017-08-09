@@ -7,11 +7,17 @@ import ru.epam.spring.hometask.DAO.AuditoriumDAO;
 import ru.epam.spring.hometask.DAO.EventDAO;
 import ru.epam.spring.hometask.DAO.TicketsDAO;
 import ru.epam.spring.hometask.DAO.UserDAO;
+import ru.epam.spring.hometask.service.AuditoriumService;
+import ru.epam.spring.hometask.service.BookingService;
+import ru.epam.spring.hometask.service.EventService;
+import ru.epam.spring.hometask.service.UserService;
 import ru.epam.spring.hometask.utils.UserBundle;
 import ru.epam.spring.hometask.utils.wrapper.AuditoriumServiceWrapper;
 import ru.epam.spring.hometask.utils.wrapper.BookingServiceWrapper;
 import ru.epam.spring.hometask.utils.wrapper.EventServiceWrapper;
 import ru.epam.spring.hometask.utils.wrapper.UserServiceWraper;
+
+import javax.annotation.Resource;
 
 /**
  * Created by Dmitrii_Topolnik on 8/8/2017.
@@ -19,16 +25,16 @@ import ru.epam.spring.hometask.utils.wrapper.UserServiceWraper;
 @Configuration
 public class WrapperConfig {
     @Autowired
-    private TicketsDAO ticketsDAO;
+    private BookingService ticketsDAO;
 
     @Autowired
-    private UserDAO userDAO;
+    private UserService userDAO;
 
     @Autowired
-    private EventDAO eventDAO;
+    private EventService eventDAO;
 
     @Autowired
-    private AuditoriumDAO auditoriumDAO;
+    private AuditoriumService auditoriumDAO;
 
     @Autowired
     private UserBundle userBundle;

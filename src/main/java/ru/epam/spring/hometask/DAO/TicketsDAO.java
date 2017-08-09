@@ -23,7 +23,7 @@ public class TicketsDAO implements BookingService {
     }
 
     @Override
-    public double getTicketsPrice(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user, @Nonnull Set<Long> seats) {
+    public double getTicketsPrice(Event event, LocalDateTime dateTime, User user,Set<Long> seats) {
         double summPrice = 0;
         Long numberOfTickets = (long) seats.size();
         double userDiscount = ds.getDiscount(user, event, dateTime, numberOfTickets);
@@ -45,14 +45,13 @@ public class TicketsDAO implements BookingService {
     }
 
     @Override
-    public void bookTickets(@Nonnull Set<Ticket> tickets) {
+    public void bookTickets(Set<Ticket> tickets) {
         BD.addAll(tickets);
 
     }
 
-    @Nonnull
     @Override
-    public Set<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime) {
+    public Set<Ticket> getPurchasedTicketsForEvent(Event event, LocalDateTime dateTime) {
         HashSet<Ticket> tickets = new HashSet<>();
         for (Ticket ticket : BD){
             if (ticket.getDateTime().equals(dateTime) && ticket.getEvent().equals(event)) tickets.add(ticket);

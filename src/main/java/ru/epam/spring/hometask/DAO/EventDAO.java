@@ -9,6 +9,7 @@ import ru.epam.spring.hometask.utils.wrapper.AuditoriumServiceWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -53,7 +54,7 @@ public class EventDAO implements EventService {
         return DB;
     }
 
-
+    @PostConstruct
     private void init(){
         this.DB = new ArrayList<Event>();
     }

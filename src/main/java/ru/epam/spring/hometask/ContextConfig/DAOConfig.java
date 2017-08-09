@@ -10,7 +10,11 @@ import ru.epam.spring.hometask.DAO.DiscountStrategys.AbstractStrategy;
 import ru.epam.spring.hometask.DAO.DiscountStrategys.BirthDayStrategy;
 import ru.epam.spring.hometask.DAO.DiscountStrategys.Every10thTicketStrategy;
 import ru.epam.spring.hometask.domain.Auditorium;
+import ru.epam.spring.hometask.service.DiscountService;
+import ru.epam.spring.hometask.service.UserService;
 import ru.epam.spring.hometask.utils.UserBundle;
+
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -27,7 +31,7 @@ public class DAOConfig {
     private Environment environment;
 
     @Autowired
-    private DiscountDAO discountDAO;
+    private DiscountService discountDAO;
 
     @Bean
     public UserBundle getUserBundle() {

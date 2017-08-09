@@ -6,6 +6,7 @@ import ru.epam.spring.hometask.service.UserService;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -60,7 +61,7 @@ public class UserDAO implements UserService {
     public Collection<User> getAll() {
         return DB;
     }
-
+    @PostConstruct
     private void init() {
         DB = new ArrayList<User>();
         //test content

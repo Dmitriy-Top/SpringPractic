@@ -10,7 +10,7 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.ver>3.2.13.RELEASE</spring.ver>
+        <spring.ver>4.3.0.RELEASE</spring.ver>
     </properties>
     <dependencies>
         <dependency>
@@ -47,6 +47,11 @@
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.7.3</version>
         </dependency>
 
     </dependencies>

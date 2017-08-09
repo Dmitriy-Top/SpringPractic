@@ -3,6 +3,7 @@ package ru.epam.spring.hometask;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.shell.Bootstrap;
 import ru.epam.spring.hometask.CLI.Commands;
+import ru.epam.spring.hometask.ContextConfig.AspectConfig;
 import ru.epam.spring.hometask.ContextConfig.DAOConfig;
 import ru.epam.spring.hometask.ContextConfig.WrapperConfig;
 
@@ -16,7 +17,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         LogManager.getLogManager().reset(); // off spring-msg
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-        ctx.register(DAOConfig.class, WrapperConfig.class);
+        ctx.register(DAOConfig.class, WrapperConfig.class, AspectConfig.class);
         ctx.refresh();
         Commands.setCtx(ctx);
         Bootstrap.main(args);
