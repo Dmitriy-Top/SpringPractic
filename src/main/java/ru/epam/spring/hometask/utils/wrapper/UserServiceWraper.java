@@ -19,7 +19,7 @@ public class UserServiceWraper {
         this.userBundle = userBundle;
     }
 
-    public String regUser(String email, String firstName, String lastName, String role, String birthDate) {
+    public String regUser(String email, String role, String lastName, String firstName, String birthDate) {
         User user = new User();
         try {
             user.setRole(UserRole.valueOf(role));

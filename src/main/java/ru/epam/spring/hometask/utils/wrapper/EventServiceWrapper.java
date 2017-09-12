@@ -108,13 +108,5 @@ public class EventServiceWrapper {
         }
         return sb.toString();
     }
-    @PostConstruct
-    private void init(){
-        //test data
-        //todo: clean after
-        String[] dates = {"2017-08-11 12:00","2017-08-11 14:00"};
-        save("Love and Rose",dates,"150","LOW","betta");
-        String[] dates_2 = {"2017-08-12 11:00","2017-08-14 15:00","2017-08-17 17:00"};
-        save("Piece of shit",dates_2,"270","HIGH","alpha");
-    }
+
 }

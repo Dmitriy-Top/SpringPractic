@@ -8,6 +8,7 @@ import ru.epam.spring.hometask.domain.Ticket;
 import ru.epam.spring.hometask.domain.User;
 
 import java.time.LocalDateTime;
+import java.util.NavigableSet;
 import java.util.Set;
 
 /**
@@ -53,4 +54,7 @@ public interface BookingService {
      */
     public @Nonnull Set<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime);
 
+    NavigableSet<Ticket> getTicketForUser(User user);
+
+    void saveUserTickets(User object);
 }

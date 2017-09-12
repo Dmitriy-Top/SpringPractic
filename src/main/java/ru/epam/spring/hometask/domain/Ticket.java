@@ -23,6 +23,7 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
         this.seat = seat;
     }
 
+
     public User getUser() {
         return user;
     }

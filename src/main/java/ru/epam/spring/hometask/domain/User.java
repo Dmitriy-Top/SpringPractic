@@ -11,12 +11,6 @@ import java.util.TreeSet;
  */
 public class User extends DomainObject {
 
-    public static Long counter;
-
-    static {
-        counter = 0l;
-    }
-
     private String firstName;
 
     private String lastName;
@@ -27,6 +21,8 @@ public class User extends DomainObject {
 
     private LocalDate birthDay;
 
+    private NavigableSet<Ticket> tickets = new TreeSet<>();
+
     public LocalDate getBirthDay() {
         return birthDay;
     }
@@ -34,8 +30,6 @@ public class User extends DomainObject {
     public void setBirthDay(LocalDate birthDay) {
         this.birthDay = birthDay;
     }
-
-    private NavigableSet<Ticket> tickets = new TreeSet<>();
 
     public String getFirstName() {
         return firstName;
@@ -122,9 +116,6 @@ public class User extends DomainObject {
                 '}';
     }
 
-    public User() {
-        User.counter++;
-    }
 
     public UserRole getRole() {
         return role;

@@ -2,6 +2,7 @@ package ru.epam.spring.hometask.domain;
 
 import javafx.util.Pair;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,12 +13,7 @@ import java.util.*;
  */
 public class Event extends DomainObject {
 
-    public static Long counter;
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    static {
-        counter = 0l;
-
-    }
 
     private String name;
 
@@ -242,5 +238,21 @@ public class Event extends DomainObject {
                 ", rating=" + getRating().toString() +
                 ", auditoriums=[" + sba.toString() +
                 " ]}";
+    }
+
+    public void setAirDatesFromeTimeStamps(Timestamp[] timeStamps) {
+        TreeSet<LocalDateTime> airdates = new TreeSet<>();
+        for (Timestamp timestamp: timeStamps){
+            airdates.add(timestamp.toLocalDateTime());
+        }
+        setAirDates(airdates);
+    }
+
+    public Timestamp[] getTimeStampsFromeAirDates() {
+        HashSet<Timestamp> timestamps = new HashSet<>();
+        for (LocalDateTime dateTime: airDates){
+            timestamps.add(Timestamp.valueOf(dateTime));
+        }
+        return (Timestamp[])timestamps.toArray();
     }
 }

@@ -1,5 +1,8 @@
 package ru.epam.spring.hometask.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.NavigableMap;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -28,4 +31,11 @@ public interface AuditoriumService {
      */
     public @Nullable Auditorium getByName(@Nonnull String name);
 
+    public Object[] saveAuditoriumsMap(NavigableMap<LocalDateTime, Auditorium> auditoriums);
+
+    void removeAuditoriumMap(List<Long> auditoriumsmapids);
+
+    public NavigableMap<LocalDateTime, Auditorium> getAuditoriumsMap(Long[] mapIDs);
+
+    public Auditorium getByID(long auditoriumid);
 }

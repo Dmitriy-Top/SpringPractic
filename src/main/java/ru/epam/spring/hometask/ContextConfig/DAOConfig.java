@@ -4,17 +4,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import ru.epam.spring.hometask.DAO.*;
 import ru.epam.spring.hometask.DAO.DiscountStrategys.AbstractStrategy;
 import ru.epam.spring.hometask.DAO.DiscountStrategys.BirthDayStrategy;
 import ru.epam.spring.hometask.DAO.DiscountStrategys.Every10thTicketStrategy;
 import ru.epam.spring.hometask.domain.Auditorium;
-import ru.epam.spring.hometask.service.DiscountService;
-import ru.epam.spring.hometask.service.UserService;
+import ru.epam.spring.hometask.service.*;
 import ru.epam.spring.hometask.utils.UserBundle;
 
 import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,44 +28,59 @@ import java.util.Set;
  * Created by Dmitrii_Topolnik on 8/8/2017.
  */
 @Configuration
-@PropertySource("classpath:auditorium.properties")
+@PropertySources({
+        @PropertySource("classpath:auditorium.properties"),
+        @PropertySource("classpath:jdbc.properties")
+})
 public class DAOConfig {
 
     @Autowired
     private Environment environment;
 
     @Autowired
-    private DiscountService discountDAO;
+    private DataSource dataSource;
 
     @Bean
-    public UserBundle getUserBundle() {
+    public DataSource dataSource(){
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setDriverClassName(environment.getProperty("jdbc.driverClassName"));
+        ds.setUrl(environment.getProperty("jdbc.url"));
+        ds.setUsername(environment.getProperty("jdbc.username"));
+        ds.setPassword(environment.getProperty("jdbc.password"));
+        return ds;
+    }
+    @Bean
+    public JdbcOperations jdbcTemplate(){
+        return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    public UserBundle UserBundle() {
         return new UserBundle();
     }
 
     @Bean
-    public UserDAO getUserDAO() {
+    public UserDAO UserDAO() {
         return new UserDAO();
     }
 
     @Bean
-    public EventDAO getEventDAO (){
+    public TicketsDAO TicketsDAO(){
+        return new TicketsDAO();
+    }
+
+    @Bean
+    public EventDAO EventDAO (){
         return new EventDAO();
     }
 
     @Bean
-    public AuditoriumDAO getAuditoriumDAO(){
-        Auditorium alpha = new Auditorium(environment.getProperty("auditorium.alpha"),environment.getProperty("auditorium.alpha.seats",Long.class), environment.getProperty("auditorium.alpha.vipseats",String[].class));
-        Auditorium betta = new Auditorium(environment.getProperty("auditorium.betta"),environment.getProperty("auditorium.betta.seats",Long.class), environment.getProperty("auditorium.betta.vipseats",String[].class));
-        Set<Auditorium> set = new HashSet<>();
-        set.add(alpha);
-        set.add(betta);
-        AuditoriumDAO dao = new AuditoriumDAO();
-        dao.setDB(set);
-        return dao;
+    public AuditoriumDAO AuditoriumDAO(){
+        return new AuditoriumDAO();
     }
 
     @Bean
-    public DiscountDAO getDiscountDAO(){
+    public DiscountDAO DiscountDAO(){
         List<AbstractStrategy> list = new ArrayList<>();
         list.add(new BirthDayStrategy());
         list.add(new Every10thTicketStrategy());
@@ -70,10 +89,7 @@ public class DAOConfig {
         return dao;
     }
 
-    @Bean
-    public TicketsDAO getTicketsDAO(){
-        return new TicketsDAO(discountDAO);
-    }
+
 
 
 

@@ -28,7 +28,7 @@ public class AuditoriumServiceWrapper {
 
     public String getByName(String name) {
         Auditorium ad = as.getByName(name);
-        return (ad!=null)?"not found":ad.toString();
+        return (ad==null)?"not found":ad.toString();
 
     }
 }
