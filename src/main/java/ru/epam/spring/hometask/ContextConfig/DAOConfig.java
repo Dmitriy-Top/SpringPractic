@@ -29,7 +29,6 @@ import java.util.Set;
  */
 @Configuration
 @PropertySources({
-        @PropertySource("classpath:auditorium.properties"),
         @PropertySource("classpath:jdbc.properties")
 })
 public class DAOConfig {
