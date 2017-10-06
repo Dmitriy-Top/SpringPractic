@@ -1,4 +1,4 @@
-package ru.epam.spring.hometask.ContextConfig;
+package ru.epam.spring.hometask.ApplicationContextConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,16 +13,11 @@ import ru.epam.spring.hometask.DAO.*;
 import ru.epam.spring.hometask.DAO.DiscountStrategys.AbstractStrategy;
 import ru.epam.spring.hometask.DAO.DiscountStrategys.BirthDayStrategy;
 import ru.epam.spring.hometask.DAO.DiscountStrategys.Every10thTicketStrategy;
-import ru.epam.spring.hometask.domain.Auditorium;
-import ru.epam.spring.hometask.service.*;
 import ru.epam.spring.hometask.utils.UserBundle;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Dmitrii_Topolnik on 8/8/2017.

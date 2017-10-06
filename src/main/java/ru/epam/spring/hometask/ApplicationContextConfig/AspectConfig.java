@@ -1,10 +1,8 @@
-package ru.epam.spring.hometask.ContextConfig;
+package ru.epam.spring.hometask.ApplicationContextConfig;
 
-import org.aspectj.lang.Aspects;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import ru.epam.spring.hometask.DAO.DiscountDAO;
 import ru.epam.spring.hometask.aspects.CounterAspect;
 import ru.epam.spring.hometask.aspects.DiscountAspect;
 

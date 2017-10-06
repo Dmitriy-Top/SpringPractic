@@ -1,12 +1,8 @@
-package ru.epam.spring.hometask.ContextConfig;
+package ru.epam.spring.hometask.ApplicationContextConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.epam.spring.hometask.DAO.AuditoriumDAO;
-import ru.epam.spring.hometask.DAO.EventDAO;
-import ru.epam.spring.hometask.DAO.TicketsDAO;
-import ru.epam.spring.hometask.DAO.UserDAO;
 import ru.epam.spring.hometask.service.AuditoriumService;
 import ru.epam.spring.hometask.service.BookingService;
 import ru.epam.spring.hometask.service.EventService;
@@ -16,8 +12,6 @@ import ru.epam.spring.hometask.utils.wrapper.AuditoriumServiceWrapper;
 import ru.epam.spring.hometask.utils.wrapper.BookingServiceWrapper;
 import ru.epam.spring.hometask.utils.wrapper.EventServiceWrapper;
 import ru.epam.spring.hometask.utils.wrapper.UserServiceWraper;
-
-import javax.annotation.Resource;
 
 /**
  * Created by Dmitrii_Topolnik on 8/8/2017.
